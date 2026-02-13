@@ -14,6 +14,7 @@ export default function MusicPlayer({ audioSrc, autoplay = false }: MusicPlayerP
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const [isLoaded, setIsLoaded] = useState(false);
   const soundRef = useRef<Howl | null>(null);
 
   useEffect(() => {
@@ -22,52 +23,95 @@ export default function MusicPlayer({ audioSrc, autoplay = false }: MusicPlayerP
       src: [audioSrc],
       loop: true,
       volume: volume,
-      autoplay: autoplay,
-      onplay: () => setIsPlaying(true),
-      onpause: () => setIsPlaying(false),
-      onend: () => setIsPlaying(false),
-      onloaderror: () => {
-        console.warn('Music file not found. Add your music file to /public/audio/song.mp3');
+      html5: true, // Enable HTML5 Audio for better browser compatibility
+      onload: () => {
+        setIsLoaded(true);
+        console.log('Music loaded successfully');
       },
-      onplayerror: () => {
-        console.warn('Failed to play music. Check if the audio file exists.');
+      onplay: () => {
+        setIsPlaying(true);
+        console.log('Music playing');
+      },
+      onpause: () => {
+        setIsPlaying(false);
+        console.log('Music paused');
+      },
+      onstop: () => {
+        setIsPlaying(false);
+        console.log('Music stopped');
+      },
+      onend: () => {
+        setIsPlaying(false);
+      },
+      onloaderror: (id, error) => {
+        console.error('Music file failed to load:', error);
+        setIsLoaded(false);
+      },
+      onplayerror: (id, error) => {
+        console.error('Failed to play music:', error);
+        setIsPlaying(false);
+        // Try to unlock audio on next user interaction
+        soundRef.current?.once('unlock', () => {
+          soundRef.current?.play();
+        });
       },
     });
 
     if (autoplay) {
-      soundRef.current.play();
+      // Add small delay to ensure proper initialization
+      setTimeout(() => {
+        soundRef.current?.play();
+      }, 100);
     }
 
     return () => {
-      soundRef.current?.stop();
       soundRef.current?.unload();
     };
-  }, [audioSrc, autoplay]);
+  }, [audioSrc]);
 
   useEffect(() => {
-    if (soundRef.current) {
+    if (soundRef.current && isLoaded) {
       soundRef.current.volume(isMuted ? 0 : volume);
     }
-  }, [volume, isMuted]);
+  }, [volume, isMuted, isLoaded]);
 
   const togglePlay = () => {
-    if (!soundRef.current) return;
+    if (!soundRef.current) {
+      console.error('Sound not initialized');
+      return;
+    }
 
-    if (isPlaying) {
-      soundRef.current.pause();
-    } else {
-      soundRef.current.play();
+    try {
+      if (isPlaying) {
+        soundRef.current.pause();
+      } else {
+        const playPromise = soundRef.current.play();
+        if (playPromise === undefined) {
+          // Howler doesn't return a promise in all cases
+          console.log('Play initiated');
+        }
+      }
+    } catch (error) {
+      console.error('Error toggling play:', error);
     }
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+    if (soundRef.current) {
+      soundRef.current.mute(!isMuted);
+    }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    if (isMuted) setIsMuted(false);
+    if (isMuted) {
+      setIsMuted(false);
+      if (soundRef.current) {
+        soundRef.current.mute(false);
+      }
+    }
   };
 
   return (
