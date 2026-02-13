@@ -26,6 +26,12 @@ export default function MusicPlayer({ audioSrc, autoplay = false }: MusicPlayerP
       onplay: () => setIsPlaying(true),
       onpause: () => setIsPlaying(false),
       onend: () => setIsPlaying(false),
+      onloaderror: () => {
+        console.warn('Music file not found. Add your music file to /public/audio/song.mp3');
+      },
+      onplayerror: () => {
+        console.warn('Failed to play music. Check if the audio file exists.');
+      },
     });
 
     if (autoplay) {

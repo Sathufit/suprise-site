@@ -112,9 +112,9 @@ export default function Home() {
       {!showLanding && (
         <>
           {/* Music Player - shows after landing page */}
-          {/* Note: Add your music file to /public/audio/song.mp3 */}
+          {/* Using a beautiful royalty-free romantic piano piece */}
           <MusicPlayer 
-            audioSrc="/audio/song.mp3" 
+            audioSrc="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" 
             autoplay={musicStarted}
           />
 
