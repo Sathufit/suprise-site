@@ -467,10 +467,10 @@ export default function Home() {
         >
           {/* Sticky music player */}
           <MusicPlayer
-            audioSrc="https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3"
+            audioSrc="https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3"
             autoplay={musicStarted}
-            songTitle="Slow Motion"
-            artistName="Bensound"
+            songTitle="Romantic Melody"
+            artistName="MusiQue"
           />
 
           {/* ① Hero */}

@@ -23,6 +23,7 @@ export default function MusicPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const soundRef = useRef<Howl | null>(null);
   const [barHeights, setBarHeights] = useState<number[]>(
     Array.from({ length: BAR_COUNT }, () => 0.2)
@@ -54,23 +55,36 @@ export default function MusicPlayer({
   }, [isPlaying]);
 
   useEffect(() => {
+    setLoadError(false);
     soundRef.current = new Howl({
       src: [audioSrc],
+      format: ['mp3'],
       loop: true,
       volume: volume,
-      html5: true,
+      html5: false,
+      preload: true,
       onplay: () => setIsPlaying(true),
       onpause: () => setIsPlaying(false),
       onstop: () => setIsPlaying(false),
       onend: () => setIsPlaying(false),
-      onloaderror: (_id, error) => console.error('Music load error:', error),
-      onplayerror: (_id, _error) => {
+      onload: () => console.log('Music loaded successfully'),
+      onloaderror: (_id, error) => {
+        console.error('Music load error:', error, 'URL:', audioSrc);
+        setLoadError(true);
+        setIsPlaying(false);
+      },
+      onplayerror: (_id, error) => {
+        console.error('Music play error:', error);
         soundRef.current?.once('unlock', () => soundRef.current?.play());
       },
     });
 
     if (autoplay) {
-      setTimeout(() => soundRef.current?.play(), 200);
+      setTimeout(() => {
+        if (!loadError && soundRef.current) {
+          soundRef.current.play();
+        }
+      }, 200);
     }
 
     return () => { soundRef.current?.unload(); };
@@ -84,7 +98,7 @@ export default function MusicPlayer({
   }, [volume, isMuted]);
 
   const togglePlay = () => {
-    if (!soundRef.current) return;
+    if (!soundRef.current || loadError) return;
     if (isPlaying) {
       soundRef.current.pause();
     } else {
@@ -129,9 +143,9 @@ export default function MusicPlayer({
                 </p>
                 <p
                   className="text-xs mt-0.5"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
+                  style={{ color: loadError ? '#e74c3c' : 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
                 >
-                  {artistName}
+                  {loadError ? '⚠️ Unable to load audio' : artistName}
                 </p>
               </div>
               {/* Collapse button */}
@@ -166,11 +180,18 @@ export default function MusicPlayer({
             <div className="flex items-center gap-3">
               {/* Play/Pause */}
               <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.92 }}
+                whileHover={{ scale: loadError ? 1 : 1.1 }}
+                whileTap={{ scale: loadError ? 1 : 0.92 }}
                 onClick={togglePlay}
+                disabled={loadError}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-white flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg, var(--soft-rose), var(--rose-gold))' }}
+                style={{ 
+                  background: loadError 
+                    ? 'rgba(201, 133, 138, 0.3)' 
+                    : 'linear-gradient(135deg, var(--soft-rose), var(--rose-gold))',
+                  cursor: loadError ? 'not-allowed' : 'pointer',
+                  opacity: loadError ? 0.5 : 1
+                }}
               >
                 {isPlaying ? (
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
@@ -240,10 +261,17 @@ export default function MusicPlayer({
             {/* Mini play button */}
             <motion.button
               onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              disabled={loadError}
               className="w-8 h-8 flex items-center justify-center rounded-full text-white flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, var(--soft-rose), var(--rose-gold))' }}
-              whileHover={{ scale: 1.15 }}
-              whileTap={{ scale: 0.9 }}
+              style={{ 
+                background: loadError 
+                  ? 'rgba(201, 133, 138, 0.3)' 
+                  : 'linear-gradient(135deg, var(--soft-rose), var(--rose-gold))',
+                cursor: loadError ? 'not-allowed' : 'pointer',
+                opacity: loadError ? 0.5 : 1
+              }}
+              whileHover={{ scale: loadError ? 1 : 1.15 }}
+              whileTap={{ scale: loadError ? 1 : 0.9 }}
             >
               {isPlaying ? (
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
