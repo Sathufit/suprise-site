@@ -1,24 +1,26 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 interface FloatingElementProps {
   children: ReactNode;
   duration?: number;
   yOffset?: number;
   className?: string;
+  style?: CSSProperties;
 }
 
-export default function FloatingElement({ 
+export default function FloatingElement({
   children,
   duration = 3,
   yOffset = 10,
-  className = ''
+  className = '',
+  style,
 }: FloatingElementProps) {
   return (
     <motion.div
-      animate={{ 
+      animate={{
         y: [-yOffset, yOffset, -yOffset],
       }}
       transition={{
@@ -27,6 +29,7 @@ export default function FloatingElement({
         ease: 'easeInOut'
       }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>

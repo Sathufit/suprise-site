@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Poppins, Dancing_Script } from "next/font/google";
+import { Playfair_Display, Poppins, Dancing_Script, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -20,6 +20,13 @@ const dancing = Dancing_Script({
   weight: ["400", "700"],
 });
 
+const cormorant = Cormorant_Garamond({
+  variable: "--font-elegant",
+  subsets: ["latin"],
+  weight: ["300", "400", "600"],
+  style: ["normal", "italic"],
+});
+
 export const metadata: Metadata = {
   title: "Our Love Story",
   description: "A journey through our memories together",
@@ -32,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${poppins.variable} ${dancing.variable} antialiased`}>
+      <body className={`${playfair.variable} ${poppins.variable} ${dancing.variable} ${cormorant.variable} antialiased`}>
         {children}
       </body>
     </html>
