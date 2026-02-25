@@ -61,7 +61,7 @@ export default function MusicPlayer({
       format: ['mp3'],
       loop: true,
       volume: volume,
-      html5: false,
+      html5: true,
       preload: true,
       onplay: () => setIsPlaying(true),
       onpause: () => setIsPlaying(false),

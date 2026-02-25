@@ -148,7 +148,7 @@ function HeroSection() {
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0 }}
           className="text-sm uppercase tracking-widest mb-6 flex items-center justify-center gap-3"
           style={{ color: 'var(--rose-gold)', fontFamily: 'var(--font-body)', letterSpacing: '0.25em' }}
         >
@@ -172,7 +172,7 @@ function HeroSection() {
         </motion.p>
 
         {/* Heading */}
-        <FadeIn delay={0.3}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
           <h1
             style={{ fontFamily: 'var(--font-heading)', letterSpacing: '-0.02em', lineHeight: '1.05' }}
             className="text-6xl md:text-8xl font-bold text-center mb-6"
@@ -182,20 +182,20 @@ function HeroSection() {
             <br />
             <span style={{ color: 'var(--text-dark)' }}>Story</span>
           </h1>
-        </FadeIn>
+        </motion.div>
 
         {/* Script subtitle */}
-        <FadeIn delay={0.6}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.22 }}>
           <p
             style={{ fontFamily: 'var(--font-script)', color: 'var(--text-muted)', fontSize: '1.6rem' }}
             className="mb-10"
           >
             A celebration of our journey together
           </p>
-        </FadeIn>
+        </motion.div>
 
         {/* Opening message card */}
-        <FadeIn delay={0.9}>
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}>
           <div
             className="glass-card rounded-3xl p-8 md:p-10 max-w-2xl mx-auto relative overflow-hidden"
             style={{ border: '1px solid rgba(201, 133, 138, 0.15)' }}
@@ -230,10 +230,10 @@ function HeroSection() {
               memories we&apos;ve created together. Here&apos;s to many more adventures ahead! ❤️
             </p>
           </div>
-        </FadeIn>
+        </motion.div>
 
         {/* Scroll indicator */}
-        <FadeIn delay={1.3}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.5 }}>
           <div className="mt-14 flex flex-col items-center gap-2">
             <p
               className="text-xs uppercase tracking-widest"
@@ -250,7 +250,7 @@ function HeroSection() {
               </svg>
             </motion.div>
           </div>
-        </FadeIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -412,6 +412,7 @@ export default function Home() {
   const [musicStarted, setMusicStarted] = useState(false);
 
   const handleBegin = () => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
     setShowLanding(false);
     setMusicStarted(true);
   };
@@ -428,14 +429,14 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.3 }}
         >
           {/* Sticky music player */}
           <MusicPlayer
-            audioSrc="https://www.bensound.com/bensound-music/bensound-love.mp3"
+            audioSrc="/audio/all-of-me.mp3"
             autoplay={musicStarted}
-            songTitle="Love"
-            artistName="Bensound"
+            songTitle="All of Me"
+            artistName="John Legend"
           />
 
           {/* ① Hero */}
