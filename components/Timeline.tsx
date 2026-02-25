@@ -2,14 +2,17 @@
 
 import { motion, useScroll, useSpring, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import SparkleCanvas from './SparkleCanvas';
 
 export interface Milestone {
-  date: string;
-  title: string;
+  date?: string;
+  title?: string;
   description: string;
   icon?: 'heart' | 'calendar' | 'gift' | 'ring' | 'star' | 'camera';
   emoji?: string;
+  photo?: string;
+  objectPosition?: string;
 }
 
 interface TimelineProps {
@@ -80,36 +83,45 @@ function TimelineCard({ milestone, index }: { milestone: Milestone; index: numbe
         <motion.div
           whileHover={{ y: -6, scale: 1.02 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="glass-card rounded-2xl p-6 relative overflow-hidden group cursor-default"
+          className="glass-card rounded-2xl overflow-hidden relative group cursor-default"
         >
           {/* Corner decoration */}
           <div
-            className="absolute top-0 right-0 w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity"
+            className="absolute top-0 right-0 w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity z-10"
             style={{
               background: 'radial-gradient(circle at top right, var(--soft-rose), transparent)',
             }}
           />
 
-          <motion.p
-            className="text-sm font-medium mb-2 flex items-center gap-1.5"
-            style={{ fontFamily: 'var(--font-script)', color: 'var(--rose-gold)', fontSize: '1.1rem' }}
-          >
-            📆 {milestone.date}
-          </motion.p>
+          {/* Photo */}
+          {milestone.photo && (
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: '4/3' }}>
+              <Image
+                src={milestone.photo}
+                alt="Memory"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ objectPosition: milestone.objectPosition ?? 'center' }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, transparent 65%, rgba(255,245,248,0.75) 100%)',
+                }}
+              />
+            </div>
+          )}
 
-          <h3
-            className="font-bold text-xl mb-3"
-            style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-dark)' }}
-          >
-            {milestone.title}
-          </h3>
-
-          <p
-            className="leading-relaxed text-sm"
-            style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)' }}
-          >
-            {milestone.description}
-          </p>
+          <div className="p-6">
+            <p
+              className="leading-relaxed text-base text-center italic"
+              style={{ color: 'var(--text-dark)', fontFamily: 'var(--font-script)', fontSize: '1.25rem', lineHeight: '1.7' }}
+            >
+              &ldquo;{milestone.description}&rdquo;
+            </p>
+          </div>
 
           {/* Bottom accent line */}
           <motion.div
@@ -120,6 +132,7 @@ function TimelineCard({ milestone, index }: { milestone: Milestone; index: numbe
             style={{ background: 'linear-gradient(to right, var(--soft-rose), transparent)' }}
           />
         </motion.div>
+
       </motion.div>
     </div>
   );
@@ -161,21 +174,21 @@ export default function Timeline({ milestones }: TimelineProps) {
             className="text-lg mb-3 tracking-widest uppercase"
             style={{ color: 'var(--rose-gold)', fontFamily: 'var(--font-body)', letterSpacing: '0.2em' }}
           >
-            — Our Journey —
+            — Our Story —
           </p>
           <h2
             className="text-5xl md:text-7xl font-bold mb-4"
             style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-dark)' }}
           >
-            Milestones of
+            Memory
             <br />
-            <span className="text-gradient italic">Love</span>
+            <span className="text-gradient italic">Lane</span>
           </h2>
           <p
             className="text-xl"
             style={{ fontFamily: 'var(--font-script)', color: 'var(--text-muted)' }}
           >
-            Every moment with you is a treasure
+            Moments I never want to forget
           </p>
         </motion.div>
 

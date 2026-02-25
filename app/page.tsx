@@ -15,80 +15,45 @@ import FloatingElement from '@/components/animations/FloatingElement';
 // ─────────────────────── DATA ──────────────────────────────
 const milestones: Milestone[] = [
   {
-    date: 'January 15, 2024',
-    title: 'First Meeting',
+    photo: '/images/1.jpeg',
     description:
-      'The day our paths crossed and my life changed forever. I remember the way you smiled and knew something special was beginning.',
-    icon: 'heart',
+      'In your eyes, I found a home — a place I never want to leave.',
     emoji: '💕',
   },
   {
-    date: 'February 14, 2024',
-    title: 'First Date',
+    photo: '/images/2.jpeg',
+    objectPosition: 'center 40%',
     description:
-      'Our magical first date under the stars. Every moment with you felt like a dream come true.',
-    icon: 'calendar',
+      'Every moment with you is a memory I will treasure for the rest of my life.',
     emoji: '🌹',
   },
   {
-    date: 'May 20, 2024',
-    title: 'Our First Trip',
+    photo: '/images/3.jpeg',
+    objectPosition: 'center 2%',
     description:
-      'Adventures together, creating memories that would last forever. Exploring the world with you by my side.',
-    icon: 'gift',
-    emoji: '✈️',
+      'You are the reason I believe in love — completely, endlessly, hopelessly.',
+    emoji: '💫',
   },
   {
-    date: 'December 25, 2024',
-    title: 'A Special Promise',
+    photo: '/images/4.jpeg',
     description:
-      'The day we promised to always be there for each other, through thick and thin.',
-    icon: 'ring',
-    emoji: '💍',
+      'I fell in love with you slowly, then all at once — and I would choose you a thousand times over.',
+    emoji: '✨',
   },
 ];
 
 const photos: Photo[] = [
-  {
-    src: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=600&q=80&auto=format&fit=crop',
-    alt: 'Beautiful moment together',
-    caption: 'Our first adventure',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=600&q=80&auto=format&fit=crop',
-    alt: 'Sunset memories',
-    caption: 'Watching the sunset',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1522673607159-d9e8d3a28b50?w=600&q=80&auto=format&fit=crop',
-    alt: 'Happy times',
-    caption: 'Laughter and joy',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1514846326710-096e4a8035e0?w=600&q=80&auto=format&fit=crop',
-    alt: 'Special celebration',
-    caption: 'Celebrating us',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1476900164809-ff19b8ae5968?w=600&q=80&auto=format&fit=crop',
-    alt: 'Nature walk',
-    caption: 'Walking together',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1522663107331-e4d7e5e5c11d?w=600&q=80&auto=format&fit=crop',
-    alt: 'Cozy moments',
-    caption: 'Comfortable silence',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=600&q=80&auto=format&fit=crop',
-    alt: 'City adventures',
-    caption: 'Urban exploring',
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=600&q=80&auto=format&fit=crop',
-    alt: 'Sweet memories',
-    caption: 'Forever in my heart',
-  },
+  { src: '/images/1.jpeg', alt: 'Our memory', caption: 'Always & forever' },
+  { src: '/images/2.jpeg', alt: 'Our memory', caption: 'Together is my favourite place' },
+  { src: '/images/3.jpeg', alt: 'Our memory', caption: 'Every moment with you' },
+  { src: '/images/4.jpeg', alt: 'Our memory', caption: 'You make me smile' },
+  { src: '/images/5.jpeg', alt: 'Our memory', caption: 'My favourite adventure' },
+  { src: '/images/6.jpeg', alt: 'Our memory', caption: 'Endless love' },
+  { src: '/images/7.jpeg', alt: 'Our memory', caption: 'You are my sunshine' },
+  { src: '/images/8.jpeg', alt: 'Our memory', caption: 'Love in every look' },
+  { src: '/images/9.jpeg', alt: 'Our memory', caption: 'Side by side always' },
+  { src: '/images/10.jpeg', alt: 'Our memory', caption: 'My whole heart' },
+  { src: '/images/11.jpeg', alt: 'Our memory', caption: 'Lost in you' },
 ];
 
 const loveNotes = [
@@ -467,10 +432,10 @@ export default function Home() {
         >
           {/* Sticky music player */}
           <MusicPlayer
-            audioSrc="https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3"
+            audioSrc="https://www.bensound.com/bensound-music/bensound-love.mp3"
             autoplay={musicStarted}
-            songTitle="Romantic Melody"
-            artistName="MusiQue"
+            songTitle="Love"
+            artistName="Bensound"
           />
 
           {/* ① Hero */}

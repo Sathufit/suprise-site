@@ -134,12 +134,12 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
                     }}
                   >
                     {/* Photo */}
-                    <div className="relative aspect-square overflow-hidden bg-gray-100">
+                    <div className="relative overflow-hidden bg-gray-100" style={{ aspectRatio: '3/4' }}>
                       <Image
                         src={photo.src}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-500"
+                        className="object-cover object-top transition-transform duration-500"
                         style={{ transform: isHovered ? 'scale(1.08)' : 'scale(1)' }}
                         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         unoptimized
@@ -252,14 +252,14 @@ export default function PhotoGallery({ photos }: PhotoGalleryProps) {
               {/* Polaroid in lightbox */}
               <div
                 className="bg-white p-3 pb-6 shadow-2xl"
-                style={{ maxWidth: '90vw', maxHeight: '80vh' }}
+                style={{ maxWidth: '90vw', maxHeight: '85vh' }}
               >
-                <div className="relative" style={{ width: '100%', height: '60vh' }}>
+                <div className="relative" style={{ width: 'min(80vw, 700px)', height: 'min(70vh, 700px)' }}>
                   <Image
                     src={photos[selectedIndex].src}
                     alt={photos[selectedIndex].alt}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     unoptimized
                     sizes="90vw"
                   />
